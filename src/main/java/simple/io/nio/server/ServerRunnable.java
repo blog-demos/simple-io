@@ -1,5 +1,8 @@
 package simple.io.nio.server;
 
+import org.apache.log4j.Logger;
+import simple.io.IOTools;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -15,20 +18,23 @@ import java.util.Iterator;
  */
 public class ServerRunnable implements Runnable {
 
+    private final Logger logger = Logger.getLogger(ServerRunnable.class);
+
     private Thread thread;
     private Selector selector;
-    private ByteBuffer buffer = ByteBuffer.allocate(1024); // ?
+    private ByteBuffer buffer = ByteBuffer.allocate(16); // ?
 
     ServerRunnable(int port) {
         try {
             selector = Selector.open();
             ServerSocketChannel ssc = ServerSocketChannel.open();
-            //设置服务器为非阻塞方式
+            // 设置服务器为非阻塞方式
             ssc.configureBlocking(false);
             ssc.bind(new InetSocketAddress(port));
-            //把服务器通道注册到多路复用选择器上，并监听阻塞状态
+            // 把服务器通道注册到多路复用选择器上，并监听阻塞状态
             ssc.register(selector, SelectionKey.OP_ACCEPT);
-            System.out.println("Server start whit port : " + port);
+
+            logger.info(String.format("Server start whit port : %d", port));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +98,6 @@ public class ServerRunnable implements Runnable {
     }
 
     private void read(SelectionKey key) {
-
         try {
             //清空缓冲区的旧数据
             buffer.clear();
@@ -103,12 +108,12 @@ public class ServerRunnable implements Runnable {
                 key.cancel();
                 return;
             }
-            //读取到了数据，将buffer的position复位到0
+            // 读取到了数据，将buffer的position复位到0
             buffer.flip();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            String body = new String(bytes).trim();
-            System.out.println("Server:" + body);
+
+            IOTools.output(bytes);
         } catch (IOException e) {
             e.printStackTrace();
         }

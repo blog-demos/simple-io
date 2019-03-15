@@ -1,6 +1,7 @@
 package simple.io.bio.server;
 
 import org.apache.log4j.Logger;
+import simple.io.IOTools;
 
 import java.io.*;
 import java.net.Socket;
@@ -27,21 +28,14 @@ public class ServerRunnable implements Runnable {
             dis.read(data);
 
             dis.close();
-            output(data);
+            IOTools.output(data);
             socket.close();
         } catch (IOException ex) {
             logger.error(ex.getMessage());
         }
     }
 
-    private void output(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("0x%02x ", b));
-        }
 
-        logger.info(String.format("[%s]", sb.toString()));
-    }
 
     void start() {
         if (null == thread) {

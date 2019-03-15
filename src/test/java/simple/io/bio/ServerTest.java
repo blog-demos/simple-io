@@ -7,7 +7,7 @@ import simple.io.bio.server.ServerSocketProxy;
  * @Author: Q-WHai
  * @Date: Created in 16:24 2019/03/13
  */
-public class ServerEntryTest {
+public class ServerTest {
 
     @Test
     public void test1() {

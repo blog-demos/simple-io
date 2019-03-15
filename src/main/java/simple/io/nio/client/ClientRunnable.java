@@ -1,5 +1,8 @@
 package simple.io.nio.client;
 
+import simple.io.IOTools;
+import simple.io.SocketConfig;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -22,21 +25,24 @@ public class ClientRunnable implements Runnable {
 
     @Override
     public void run() {
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8379);
+        InetSocketAddress address = new InetSocketAddress(SocketConfig.DOMAIN, SocketConfig.PORT);
         SocketChannel sc = null;
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteBuffer buffer = ByteBuffer.allocate(16);
         try {
             sc = SocketChannel.open();
             sc.connect(address);
             while (true) {
-                byte[] bytes = new byte[1024];
-                System.in.read(bytes);
+                byte[] bytes = IOTools.randomByteArray(16);
                 buffer.put(bytes);
                 buffer.flip();
                 sc.write(buffer);
                 buffer.clear();
+
+                IOTools.output(bytes);
+
+                Thread.sleep(50);
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             if (sc != null) {
