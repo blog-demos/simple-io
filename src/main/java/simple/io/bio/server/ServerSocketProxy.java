@@ -1,7 +1,7 @@
 package simple.io.bio.server;
 
 import simple.io.SocketConfig;
-import simple.io.bio.SocketProxy;
+import simple.io.SocketProxy;
 
 import java.io.IOException;
 import java.net.ServerSocket;

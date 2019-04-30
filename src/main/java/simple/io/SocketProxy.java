@@ -1,4 +1,4 @@
-package simple.io.bio;
+package simple.io;
 
 /**
  * @Author: Q-WHai

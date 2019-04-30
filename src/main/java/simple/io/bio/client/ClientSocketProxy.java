@@ -1,7 +1,7 @@
 package simple.io.bio.client;
 
 import org.apache.log4j.Logger;
-import simple.io.bio.SocketProxy;
+import simple.io.SocketProxy;
 
 /**
  * @Author: Q-WHai

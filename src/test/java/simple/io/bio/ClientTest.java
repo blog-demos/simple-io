@@ -11,7 +11,9 @@ public class ClientTest {
 
     @Test
     public void test1() {
-        ClientSocketProxy proxy = new ClientSocketProxy();
-        proxy.start();
+        System.out.println(Byte.MAX_VALUE);
+        System.out.println(Byte.MIN_VALUE);
+        // ClientSocketProxy proxy = new ClientSocketProxy();
+        // proxy.start();
     }
 }
